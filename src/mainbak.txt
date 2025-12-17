@@ -1,0 +1,100 @@
+#include <iostream>
+#include <QApplication>
+#include <QMainWindow>
+#include <QMenuBar>
+#include <QToolBar>
+#include <QAction>
+#include <QWidget>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions_4_3_Core>
+
+
+class MyOpenGLWidget:public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core
+{
+    Q_OBJECT
+    public:
+        explicit MyOpenGLWidget(QWidget* parent = nullptr);
+    protected:
+        void initializeGL() override;
+        void resizeGL(int w, int h) override;
+        void paintGL() override;
+
+};
+
+MyOpenGLWidget::MyOpenGLWidget(QWidget* parent):QOpenGLWidget(parent)
+{
+}
+
+void MyOpenGLWidget::paintGL()
+{
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+}
+
+void MyOpenGLWidget::resizeGL(int w, int h)
+{
+    glViewport(0, 0, w, h);
+}
+
+void MyOpenGLWidget::initializeGL()
+{
+    initializeOpenGLFunctions();
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glEnable(GL_DEPTH_TEST);
+}
+
+int main(int argc, char* argv[])
+{
+    QApplication app(argc, argv);
+    QMainWindow window;
+    
+    QMenuBar* menubar = new QMenuBar();
+    QToolBar* toolbar = new QToolBar();
+
+    QWidget* central = new QWidget();
+    QVBoxLayout* layout = new QVBoxLayout();
+    MyOpenGLWidget* openGLWidget = new MyOpenGLWidget();
+    QPushButton* btn = new QPushButton();
+    window.setMenuBar(menubar);
+    window.addToolBar(Qt::TopToolBarArea, toolbar);
+    
+    window.setCentralWidget(central);
+    central->setLayout(layout);
+    layout->addWidget(openGLWidget);
+    layout->addWidget(btn);
+    //stylesheet
+    app.setStyleSheet(R"(
+        QWidget {
+            background-color: rgb(40, 40, 40);
+            color: rgb(255, 255, 255);
+        }
+        QMenuBar {
+            background-color: rgb(70, 70, 70);
+        }
+        QToolBar {
+            border: none;
+            spacing: 6px;
+        }
+    )");
+    //menubar
+    QMenu* menu = menubar->addMenu("&File");
+    QMenu* openMenu = menu->addMenu("&Open");
+    QAction* openAction = new QAction();
+    menu->addMenu(openMenu);
+    openMenu->addAction(openAction);
+    openAction->setText("Test");
+    //toolbar
+    toolbar->setMovable(false);
+    toolbar->setFloatable(true);
+    toolbar->addAction(openAction);
+
+    window.resize(800, 600);
+    window.setWindowTitle("Test");
+    window.show();
+
+    std::cerr <<"test"<<std::endl;
+    return app.exec();
+}
+
+#include "main.moc"
