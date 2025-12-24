@@ -2,6 +2,9 @@
 #include <QMainWindow>
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions_4_3_Core>
+#include "standardMesh.hpp"
+#include "shader.hpp"
+#include <memory>
 
 class OpenGLWidget:public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core
 {
@@ -12,6 +15,11 @@ class OpenGLWidget:public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core
         void initializeGL() override;
         void resizeGL(int w, int h) override;
         void paintGL() override;
+    private:
+        unsigned int vao;
+        GLsizei indiceSize;
+        std::unique_ptr<OpenGLMesh> cube;
+        std::unique_ptr<OpenGLShader> shader;
 };
 
 class Window:public QMainWindow
@@ -20,6 +28,7 @@ class Window:public QMainWindow
     public:
         explicit Window(QWidget* parent = nullptr);
         void CreateWidget();
+        OpenGLWidget* GetOpenGLWidget(){return openGLWidget;}
     private:
         OpenGLWidget* openGLWidget;
         int width = 1280, height = 720;

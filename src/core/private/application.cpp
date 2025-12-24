@@ -1,7 +1,11 @@
 #include <iostream>
 #include "application.hpp"
 #include <QGuiApplication>
+#include <QSurfaceFormat>
 #include <QScreen>
+#include "standardMesh.hpp"
+#include <memory>
+#include "context.hpp"
 
 Application::Application(int argc, char* argv[]):QApplication(argc, argv)
 {
@@ -10,6 +14,7 @@ Application::Application(int argc, char* argv[]):QApplication(argc, argv)
 int main(int argc, char* argv[])
 {
     Application app(argc, argv);
+
     Window& window = app.GetWindow();
     QList<QScreen*> screens = QGuiApplication::screens();
     if(!screens.isEmpty())

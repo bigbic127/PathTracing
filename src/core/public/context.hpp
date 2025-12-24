@@ -1,4 +1,5 @@
 #pragma once
+#include <QOpenGLFunctions_4_3_Core>
 
 class Context
 {
