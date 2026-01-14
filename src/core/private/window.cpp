@@ -43,7 +43,7 @@ void OpenGLWidget::paintGL()
     glm::mat4 model(1.0f);
     glm::mat4 view(1.0f);
     glm::mat4 persective(1.0f);
-    view = glm::lookAt(glm::vec3(0.0f, 0.0f, -3.0f), glm::vec3(0.0f), glm::vec3(0.0f,1.0f,0.0f));
+    view = glm::lookAt(glm::vec3(0.0f, 5.0f, -5.0f), glm::vec3(0.0f), glm::vec3(0.0f,1.0f,0.0f));
     persective = glm::perspective(45.0f, float(width())/height(), 0.01f, 100.0f);
     shader->SetMatrix4("mModel", model);
     shader->SetMatrix4("mView", view);
@@ -51,7 +51,7 @@ void OpenGLWidget::paintGL()
     cube->Bind();
     cube->Draw();
     cube->Unbind();
-    shader->EndProgram();    
+    shader->EndProgram();
 }
 
 Window::Window(QWidget* parent):QMainWindow(parent)

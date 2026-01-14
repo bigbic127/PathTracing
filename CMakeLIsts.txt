@@ -40,7 +40,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp"
 )
 #qt executable
-qt_add_executable(${PROJECT_NAME} ${SOURCES})
+qt_add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 #build
 if(WIN32)
     target_link_libraries(${PROJECT_NAME}

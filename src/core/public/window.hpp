@@ -6,6 +6,8 @@
 #include "shader.hpp"
 #include <memory>
 
+class OpenGLRenderer;
+
 class OpenGLWidget:public QOpenGLWidget, protected QOpenGLFunctions_4_3_Core
 {
     Q_OBJECT
@@ -31,5 +33,6 @@ class Window:public QMainWindow
         OpenGLWidget* GetOpenGLWidget(){return openGLWidget;}
     private:
         OpenGLWidget* openGLWidget;
+        OpenGLRenderer* openGLRenderer;
         int width = 1280, height = 720;
 };
